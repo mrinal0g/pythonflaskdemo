@@ -3,10 +3,11 @@ from config import app, db
 from models import Contact
 from google import genai
 import os
+from dotenv import load_dotenv
 
-# --- CONFIGURE GEMINI ---
-# PASTE YOUR API KEY DIRECTLY HERE
-GEMINI_API_KEY = "AIzaSyBDubDRNMYMxt6klUd19dxc_XdRre2gC6g"
+load_dotenv()
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Initialize Client directly
 try:
