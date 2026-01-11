@@ -2,19 +2,28 @@ from flask import Flask, request, jsonify
 from config import app, db
 from models import Contact
 from google import genai
-from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 
-app = Flask(__name__)
-CORS(app)
 load_dotenv()
+
+# --- FIX START ---
+# 1. Connect the database to the app explicitly
+db.init_app(app)
+
+# 2. Create tables automatically when the app starts (Essential for Render)
+with app.app_context():
+    db.create_all()
+# --- FIX END ---
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-# Initialize Client directly
 try:
-    client = genai.Client(api_key=GEMINI_API_KEY)
+    if GEMINI_API_KEY:
+        client = genai.Client(api_key=GEMINI_API_KEY)
+    else:
+        print("Warning: GEMINI_API_KEY not found.")
+        client = None
 except Exception as e:
     print(f"Error initializing Gemini Client: {e}")
 
@@ -75,11 +84,12 @@ def delete_contact(user_id):
     return jsonify({"message": "User deleted!"}), 200
 
 
-# --- AI EMAIL DRAFTER ---
 @app.route("/draft_email", methods=["POST"])
 def draft_email():
+    if not client:
+        return jsonify({"draft": "Error: AI Service not configured (Check API Key)."}), 500
+
     data = request.json
-    
     recipient_name = data.get("firstName")
     subject_intent = data.get("subject")
     tone = data.get("tone")
@@ -94,12 +104,11 @@ def draft_email():
     """
     
     try:
-        # Direct call to gemini-2.5-flash
+        # Use gemini-1.5-flash for better free-tier reliability
         response = client.models.generate_content(
-            model="gemini-2.5-flash", 
+            model="gemini-1.5-flash", 
             contents=prompt
         )
-        
         email_draft = response.text.strip()
         return jsonify({"draft": email_draft}), 200
 
@@ -109,7 +118,4 @@ def draft_email():
 
 
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
-
     app.run(debug=True)
