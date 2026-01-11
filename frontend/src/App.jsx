@@ -63,7 +63,7 @@ function App() {
   const handleGenerateDraft = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${API_URL}draft_email`, {
+      const response = await fetch(`${API_URL}/draft_email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
