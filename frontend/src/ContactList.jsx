@@ -1,4 +1,5 @@
 import React from "react";
+import API_URL from "./config";
 
 const ContactList = ({
   contacts,
@@ -11,10 +12,7 @@ const ContactList = ({
       const options = {
         method: "DELETE",
       };
-      const response = await fetch(
-        `http://127.0.0.1:5000/delete_contact/${id}`,
-        options
-      );
+      const response = await fetch(`${API_URL}/delete_contact/${id}`, options);
       if (response.status === 200) {
         updateCallback();
       } else {

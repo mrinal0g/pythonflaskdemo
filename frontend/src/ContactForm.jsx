@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import API_URL from "./config";
 
 const ContactForm = ({ existingContact = {}, updateCallback }) => {
   // Single state object for all form fields
@@ -34,8 +35,8 @@ const ContactForm = ({ existingContact = {}, updateCallback }) => {
     // Determine if we are creating or updating
     const updating = Object.keys(existingContact).length !== 0;
     const url = updating
-      ? `http://127.0.0.1:5000/update_contact/${existingContact.id}`
-      : "http://127.0.0.1:5000/create_contact";
+      ? `${API_URL}/update_contact/${existingContact.id}`
+      : `${API_URL}/create_contact`;
 
     const options = {
       method: updating ? "PATCH" : "POST",

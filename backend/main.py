@@ -2,9 +2,12 @@ from flask import Flask, request, jsonify
 from config import app, db
 from models import Contact
 from google import genai
+from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 
+app = Flask(__name__)
+CORS(app)
 load_dotenv()
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
