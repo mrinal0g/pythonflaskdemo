@@ -1,6 +1,11 @@
 import React from "react";
 
-const ContactList = ({ contacts, updateContact, updateCallback }) => {
+const ContactList = ({
+  contacts,
+  updateContact,
+  updateCallback,
+  openDraftModal,
+}) => {
   const onDelete = async (id) => {
     try {
       const options = {
@@ -41,6 +46,12 @@ const ContactList = ({ contacts, updateContact, updateCallback }) => {
               <td>
                 <button onClick={() => updateContact(contact)}>Update</button>
                 <button onClick={() => onDelete(contact.id)}>Delete</button>
+                <button
+                  onClick={() => openDraftModal(contact)}
+                  style={{ marginLeft: "5px", backgroundColor: "#4a90e2" }}
+                >
+                  Draft Email
+                </button>
               </td>
             </tr>
           ))}
