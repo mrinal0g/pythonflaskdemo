@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import ContactList from "./ContactList";
 import ContactForm from "./ContactForm";
-import API_URL from "./config";
+import API_URL from "./Config.js";
 import "./App.css";
 
 function App() {
