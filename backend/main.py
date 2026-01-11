@@ -106,7 +106,7 @@ def draft_email():
     try:
         # Use gemini-1.5-flash for better free-tier reliability
         response = client.models.generate_content(
-            model="gemini-1.5-flash", 
+            model="gemini-2.5-flash", 
             contents=prompt
         )
         email_draft = response.text.strip()
