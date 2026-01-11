@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import API_URL from "./config";
+import API_URL from "./Config";
 
 const ContactForm = ({ existingContact = {}, updateCallback }) => {
   // Single state object for all form fields
